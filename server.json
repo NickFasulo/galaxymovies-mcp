@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.galaxymovies/mcp",
+  "title": "Galaxy Movies",
+  "description": "Streaming arrivals, departures, and where-to-watch for US services",
+  "websiteUrl": "https://www.galaxymovies.app",
+  "repository": {
+    "url": "https://github.com/NickFasulo/galaxymovies-mcp",
+    "source": "github",
+    "id": "1454855595"
+  },
+  "version": "1.0.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "galaxymovies-mcp",
+      "version": "1.0.1",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 {
   "name": "galaxymovies-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "mcpName": "app.galaxymovies/mcp",
   "description": "MCP server for Galaxy Movies — streaming arrivals, departures, and where-to-watch lookup across US services",
   "type": "module",
   "main": "index.js",
