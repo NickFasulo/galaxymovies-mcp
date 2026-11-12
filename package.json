@@ -1,0 +1,38 @@
+{
+  "name": "galaxymovies-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Galaxy Movies — streaming arrivals, departures, and where-to-watch lookup across US services",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "galaxymovies-mcp": "index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "author": "Nicholas Fasulo",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "streaming",
+    "movies",
+    "tv",
+    "netflix",
+    "where-to-watch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickFasulo/galaxymovies-mcp.git"
+  },
+  "homepage": "https://www.galaxymovies.app",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "4.6.7"
+  }
+}
