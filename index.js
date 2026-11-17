@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
@@ -80,7 +81,12 @@ function err(e) {
   return { content: [{ type: 'text', text: String(e?.message || e) }], isError: true }
 }
 
-const server = new McpServer({ name: 'galaxymovies', version: pkg.version })
+// Trust indexes (M8ven, OpenAI's directory) want all four hints explicit on
+// every tool. READ_API = calls the live Galaxy Movies API; READ_LOCAL = pure.
+const READ_API = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true }
+const READ_LOCAL = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+
+export const server = new McpServer({ name: 'galaxymovies', version: pkg.version })
 
 const providerParam = z.string().describe(`Streaming service key — call list_providers for valid keys`)
 const limitParam = z.number().int().min(1).max(50).optional().describe('Max items per list (default: all)')
@@ -90,6 +96,8 @@ server.registerTool(
   {
     title: 'List streaming providers',
     description: `List the streaming services Galaxy Movies tracks (keys + labels). ${ATTRIBUTION}`,
+    inputSchema: {},
+    annotations: READ_LOCAL,
   },
   async () => ok({ providers: PROVIDERS, attribution: ATTRIBUTION }),
 )
@@ -102,6 +110,7 @@ server.registerTool(
       `What was added, is coming soon, left, or is leaving soon on a US streaming service. ` +
       `Pass a provider key or 'all'. ${ATTRIBUTION}`,
     inputSchema: { provider: z.string().describe("Provider key, or 'all' for every service") },
+    annotations: READ_API,
   },
   async ({ provider }) => {
     try {
@@ -119,6 +128,7 @@ server.registerTool(
     title: 'Get new and upcoming titles',
     description: `Titles recently added or announced as coming soon on a streaming service. ${ATTRIBUTION}`,
     inputSchema: { provider: providerParam, limit: limitParam },
+    annotations: READ_API,
   },
   async ({ provider, limit }) => {
     try {
@@ -144,6 +154,7 @@ server.registerTool(
     title: 'Get departing titles',
     description: `Titles that left or are leaving soon on a streaming service. ${ATTRIBUTION}`,
     inputSchema: { provider: providerParam, limit: limitParam },
+    annotations: READ_API,
   },
   async ({ provider, limit }) => {
     try {
@@ -175,6 +186,7 @@ server.registerTool(
       region: z.string().length(2).optional().describe('2-letter country code (default: US)'),
       type: z.enum(['movie', 'tv']).optional().describe('Restrict to movies or TV shows'),
     },
+    annotations: READ_API,
   },
   async ({ query, year, region, type }) => {
     try {
@@ -195,6 +207,7 @@ server.registerTool(
     title: 'Get calendar feed URL',
     description: `ICS calendar URL of streaming arrivals/departures for a service — subscribable in any calendar app. ${ATTRIBUTION}`,
     inputSchema: { provider: providerParam },
+    annotations: READ_LOCAL,
   },
   async ({ provider }) => {
     try {
@@ -212,6 +225,7 @@ server.registerTool(
     title: 'Get RSS feed URL',
     description: `RSS feed URL of streaming arrivals/departures for a service. ${ATTRIBUTION}`,
     inputSchema: { provider: providerParam },
+    annotations: READ_LOCAL,
   },
   async ({ provider }) => {
     try {
@@ -223,4 +237,7 @@ server.registerTool(
   },
 )
 
-await server.connect(new StdioServerTransport())
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) {
+  await server.connect(new StdioServerTransport())
+}

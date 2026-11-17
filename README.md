@@ -1,5 +1,7 @@
 # galaxymovies-mcp
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/nickfasulo/galaxymovies-mcp)](https://m8ven.ai/mcp/nickfasulo/galaxymovies-mcp?s=readme)
+
 MCP server for [Galaxy Movies](https://www.galaxymovies.app) — gives Claude Desktop, Cursor, Windsurf, and other MCP clients structured access to US streaming availability data: what's arriving, what's leaving, and where a title streams.
 
 No API keys. The tools call Galaxy Movies' public, CORS-open feeds.

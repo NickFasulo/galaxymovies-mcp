@@ -8,6 +8,9 @@
   "bin": {
     "galaxymovies-mcp": "index.js"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "files": [
     "index.js",
     "README.md",
