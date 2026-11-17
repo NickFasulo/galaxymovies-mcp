@@ -1,6 +1,6 @@
 # galaxymovies-mcp
 
-[![M8ven Score](https://m8ven.ai/badge/mcp/nickfasulo-galaxymovies-mcp-130o6a?v=4067f46b6e2aff90b8fd216570c43bda)](https://m8ven.ai/mcp/nickfasulo-galaxymovies-mcp-130o6a?s=readme)
+[![M8ven Score](https://m8ven.ai/badge/mcp/nickfasulo-galaxymovies-mcp-130o6a)](https://m8ven.ai/mcp/nickfasulo-galaxymovies-mcp-130o6a?s=readme)
 
 MCP server for [Galaxy Movies](https://www.galaxymovies.app) — gives Claude Desktop, Cursor, Windsurf, and other MCP clients structured access to US streaming availability data: what's arriving, what's leaving, and where a title streams.
 
